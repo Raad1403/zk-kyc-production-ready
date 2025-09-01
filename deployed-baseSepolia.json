@@ -1,0 +1,18 @@
+{
+  "network": "baseSepolia",
+  "chainId": "84532",
+  "deployer": "0x23E924F0CB82e814a3e03890Fb59aF50369829f9",
+  "contracts": {
+    "verifierMock": "0xa93F0fbEDBbF71755D05398567e6e76ff0C3d635",
+    "verifierGroth16": "0xa768E2e7cba5EE5f60111f9cAF6728E9901ddae2",
+    "registry": "0xf3060CAfE2247b07036ef50BA7106dfF1C7f0dc5"
+  },
+  "initialRoot": "0xa24353a45ead21d4c74157049a46bebb347e925be04f53ca7b28cb25f9e57c87",
+  "gasMetrics": {
+    "totalGasUsed": "1280829",
+    "gasPrice": "2000000000",
+    "totalCostETH": "0.002561658",
+    "costUSD": 6.404145
+  },
+  "timestamp": "2025-08-24T15:57:40.293Z"
+}

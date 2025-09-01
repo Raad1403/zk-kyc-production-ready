@@ -1,0 +1,7 @@
+{
+  "network": "localhost",
+  "verifier": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "registry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "initialRoot": "0xa24353a45ead21d4c74157049a46bebb347e925be04f53ca7b28cb25f9e57c87",
+  "verifierGroth16": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+}

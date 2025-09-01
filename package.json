@@ -1,0 +1,39 @@
+{
+  "name": "zk-kyc-poc",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf cache artifacts",
+    "compile": "hardhat compile",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "sdk:local": "node scripts/sdk-example.js",
+    "local:all": "npm run compile && start cmd /k \"npm run node\" && timeout 2 > NUL && npm run deploy:local && npm run sdk:local",
+    "zk:prep": "powershell -Command \"New-Item -ItemType Directory -Force -Path zkbuild/nullifier, zkbuild/ptau | Out-Null\"",
+    "zk:compile": ".\\circom.exe circuits/nullifier.circom --r1cs --wasm --sym -l node_modules -o zkbuild/nullifier",
+    "zk:compile:docker": "docker run --rm -v %cd%:/work -w /work ghcr.io/iden3/circom:latest circom circuits/nullifier.circom --r1cs --wasm --sym -l node_modules -o zkbuild/nullifier",
+    "zk:ptau": "npx snarkjs powersoftau new bn128 12 zkbuild/ptau/pot12_0000.ptau -v && npx snarkjs powersoftau contribute zkbuild/ptau/pot12_0000.ptau zkbuild/ptau/pot12_0001.ptau --name=\"contrib1\" -v && npx snarkjs powersoftau prepare phase2 zkbuild/ptau/pot12_0001.ptau zkbuild/ptau/pot12_final.ptau -v",
+    "zk:setup": "npx snarkjs groth16 setup zkbuild/nullifier/nullifier.r1cs zkbuild/ptau/pot12_final.ptau zkbuild/nullifier/nullifier_0000.zkey && npx snarkjs zkey contribute zkbuild/nullifier/nullifier_0000.zkey zkbuild/nullifier/nullifier_final.zkey --name=\"keycontrib1\" -v",
+    "zk:exportv": "npx snarkjs zkey export solidityverifier zkbuild/nullifier/nullifier_final.zkey contracts/VerifierGroth16.sol",
+    "zk:all": "npm run zk:prep && npm run zk:compile && npm run zk:ptau && npm run zk:setup && npm run zk:exportv",
+    "sdk:groth16": "node scripts/sdk-groth16.js",
+    "deploy:base": "hardhat run scripts/deploy-testnet.js --network baseSepolia",
+    "deploy:polygon": "hardhat run scripts/deploy-testnet.js --network polygonMumbai",
+    "deploy:arbitrum": "hardhat run scripts/deploy-testnet.js --network arbitrumSepolia",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "circomlib": "2.0.5",
+    "hardhat": "^2.22.12",
+    "rimraf": "^6.0.1",
+    "snarkjs": "^0.7.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "circomlibjs": "^0.1.7",
+    "dotenv": "^17.2.1",
+    "ethers": "^6.13.2"
+  }
+}
